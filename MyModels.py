@@ -2,6 +2,7 @@ import torch
 import torch.nn as nn
 from torch.nn.modules import *
 import torchvision.models as models
+from collections import OrderedDict
 
 class LeNet(nn.Module):
     def __init__(self):
@@ -26,5 +27,20 @@ class LeNet(nn.Module):
         x = self.fc(x)
         return x
 
+def GenerateMyModel():
+    myResNet50 = models.__dict__['resnet50']()
+    classifier = nn.Sequential(
+        OrderedDict(
+            [('fc1', nn.Linear(2048, 1024)),
+            ('relu1', nn.ReLU()), 
+            #('dropout1',nn.Dropout(0.5)),
+            ('fc2', nn.Linear(1024, 512)),
+            ('relu1', nn.ReLU()), 
+            #('dropout1',nn.Dropout(0.5)),
+            ('output', nn.Linear(512, 200)),
+            ])
+        )
+    myResNet50.fc = classifier
+    return myResNet50
 
-myResNet50 = models.__dict__['resnet50'](num_classes=200)
+
