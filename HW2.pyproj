@@ -12,7 +12,7 @@
     <ProjectTypeGuids>{888888a0-9f3d-457c-b088-3a5042f75d52}</ProjectTypeGuids>
     <LaunchProvider>Standard Python launcher</LaunchProvider>
     <InterpreterId />
-    <CommandLineArguments>D:\DLP2022Fall\HW2\tiny_imagenet_200_reorg --arch resnet50</CommandLineArguments>
+    <CommandLineArguments>D:\DLP2022Fall\HW2\tiny_imagenet_200_reorg --arch resnet50 -b 64 --lr 0.1</CommandLineArguments>
     <EnableNativeCodeDebugging>False</EnableNativeCodeDebugging>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)' == 'Debug'" />

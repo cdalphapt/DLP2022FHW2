@@ -255,7 +255,7 @@ def main_worker(gpu, ngpus_per_node, args):
     else:
         #print("=> creating model '{}'".format(args.arch))
         #model = models.__dict__[args.arch](num_classes=200)
-        model = MyModels.myResNet50
+        model = MyModels.GenerateMyModel()
         torchinfo.summary(model,(1,3,64,64))
 
         images = torch.ones([1,3,64,64])
@@ -351,11 +351,14 @@ def main_worker(gpu, ngpus_per_node, args):
         normalize = transforms.Normalize(mean=[0.485, 0.456, 0.406],
                                      std=[0.229, 0.224, 0.225])
 
+        #Remain the rescale part for a better performance, but much slower training speed.
+
         train_dataset = datasets.ImageFolder(
             traindir,
             transforms.Compose([
                 #transforms.RandomResizedCrop(224),
                 transforms.RandomHorizontalFlip(),
+                transforms.RandomVerticalFlip(), #Add
                 transforms.ToTensor(),
                 normalize,
             ]))
