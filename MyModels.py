@@ -36,18 +36,18 @@ def GenerateMyModel():
             ])
         )    
     myResNet50.conv1 = initConv
-    #classifier = nn.Sequential(
-    #    OrderedDict(
-    #        [('fc1', nn.Linear(2048, 1024)),
-    #        ('relu1', nn.ReLU()), 
-    #        #('dropout1',nn.Dropout(0.5)),
-    #        ('fc2', nn.Linear(1024, 512)),
-    #        ('relu1', nn.ReLU()), 
-    #        #('dropout1',nn.Dropout(0.5)),
-    #        ('output', nn.Linear(512, 200)),
-    #        ])
-    #    )
-    #myResNet50.fc = classifier
+    classifier = nn.Sequential(
+        OrderedDict(
+            [('fc1', nn.Linear(2048, 1024)),
+            ('relu1', nn.ReLU()), 
+            #('dropout1',nn.Dropout(0.5)),
+            ('fc2', nn.Linear(1024, 512)),
+            ('relu1', nn.ReLU()), 
+            #('dropout1',nn.Dropout(0.5)),
+            ('output', nn.Linear(512, 200)),
+            ])
+        )
+    myResNet50.fc = classifier
     return myResNet50
 
 
