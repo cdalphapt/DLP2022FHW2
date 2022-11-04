@@ -28,7 +28,7 @@ class LeNet(nn.Module):
         return x
 
 def GenerateMyModel():
-    myResNet50 = models.__dict__['resnet50'](num_classes = 200)
+    myResNet50 = models.__dict__['resnet18'](num_classes = 200)
     initConv = nn.Sequential(
         OrderedDict(
             [
@@ -38,13 +38,13 @@ def GenerateMyModel():
     myResNet50.conv1 = initConv
     classifier = nn.Sequential(
         OrderedDict(
-            [('fc1', nn.Linear(2048, 1024)),
+            [('fc1', nn.Linear(512, 384)),
             ('relu1', nn.ReLU()), 
-            #('dropout1',nn.Dropout(0.5)),
-            ('fc2', nn.Linear(1024, 512)),
-            ('relu1', nn.ReLU()), 
-            #('dropout1',nn.Dropout(0.5)),
-            ('output', nn.Linear(512, 200)),
+            ('dropout1',nn.Dropout(0.5)),
+            ('fc2', nn.Linear(384, 256)),
+            ('relu2', nn.ReLU()), 
+            ('dropout2',nn.Dropout(0.5)),
+            ('output', nn.Linear(256, 200)),
             ])
         )
     myResNet50.fc = classifier
