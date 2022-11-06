@@ -255,7 +255,7 @@ def main_worker(gpu, ngpus_per_node, args):
     else:
         #print("=> creating model '{}'".format(args.arch))
         #model = models.__dict__[args.arch](num_classes=200)
-        model = MyModels.GenerateMyModel()
+        model = MyModels.GenerateMyModel(args.myarch)
         torchinfo.summary(model,(1,3,64,64))
 
         images = torch.ones([1,3,64,64])

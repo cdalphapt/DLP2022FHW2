@@ -4,50 +4,57 @@ from torch.nn.modules import *
 import torchvision.models as models
 from collections import OrderedDict
 
-class LeNet(nn.Module):
-    def __init__(self):
-        super(LeNet, self).__init__()
-        self.conv = nn.Sequential(
-        nn.Conv2d(3, 6, 5), # in_channels, out_channels, kernel_size
-        nn.Sigmoid(), 
-        nn.MaxPool2d(2, 2), # kernel_size, stride
-        nn.Conv2d(6, 16, 5),
-        nn.Sigmoid(),
-        nn.MaxPool2d(2, 2)
-        )
-        self.fc = nn.Sequential(
-        nn.Linear(16*4*4, 120),
-        nn.Sigmoid(),
-        nn.Linear(120, 84),
-        nn.Sigmoid(),
-        nn.Linear(84, 200)  #modified to 200
-        )
-    def forward(self, x):
-        x = self.conv(x)
-        x = self.fc(x)
-        return x
+def GenerateMyModel(mode):
+    #0:vanilla resnet18
+    #1:resnet18 with dropout
+    #2:resnet18 with smaller initial conv
+    #3:resnet18 with smaller initial conv and additional full connection
+    #4:resnet18 with smaller initial conv and additional full connection plus dropout
+    #default: mode 0
+    mode = int(mode)
 
-def GenerateMyModel():
-    myResNet50 = models.__dict__['resnet18'](num_classes = 200)
-    initConv = nn.Sequential(
-        OrderedDict(
-            [
-               ('smallerConv', nn.Conv2d(3, 64, kernel_size=5, stride=1, padding=2, bias=False))
-            ])
-        )    
-    myResNet50.conv1 = initConv
-    classifier = nn.Sequential(
-        OrderedDict(
-            [('fc1', nn.Linear(512, 384)),
-            ('relu1', nn.ReLU()), 
-            ('dropout1',nn.Dropout(0.5)),
-            ('fc2', nn.Linear(384, 256)),
-            ('relu2', nn.ReLU()), 
-            ('dropout2',nn.Dropout(0.5)),
-            ('output', nn.Linear(256, 200)),
-            ])
-        )
-    myResNet50.fc = classifier
-    return myResNet50
+    myResNet18 = models.__dict__['resnet18'](num_classes = 200)
+
+    if mode == 2 or mode == 3 or mode == 4:
+        initConv = nn.Sequential(
+            OrderedDict(
+                [
+                   ('smallerConv', nn.Conv2d(3, 64, kernel_size=5, stride=1, padding=2, bias=False))
+                ])
+            )    
+        myResNet18.conv1 = initConv
+    if mode == 3:
+        classifier = nn.Sequential(
+            OrderedDict(
+                [('fc1', nn.Linear(512, 384)),
+                ('relu1', nn.ReLU()), 
+                ('fc2', nn.Linear(384, 256)),
+                ('relu2', nn.ReLU()), 
+                ('output', nn.Linear(256, 200)),
+                ])
+            )
+        myResNet18.fc = classifier
+    if mode == 4:
+        classifier = nn.Sequential(
+            OrderedDict(
+                [('fc1', nn.Linear(512, 384)),
+                ('relu1', nn.ReLU()), 
+                ('dropout1',nn.Dropout(0.5)),
+                ('fc2', nn.Linear(384, 256)),
+                ('relu2', nn.ReLU()), 
+                ('dropout2',nn.Dropout(0.5)),
+                ('output', nn.Linear(256, 200)),
+                ])
+            )
+        myResNet18.fc = classifier
+    if mode == 1:
+        singleDO = nn.Sequential(
+            OrderedDict(
+                [('fc1', nn.Linear(512, 200)),
+                ('dropout1',nn.Dropout(0.5)),
+                ])
+            )
+        myResNet18.fc = singleDO
+    return myResNet18
 
 

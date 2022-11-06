@@ -34,6 +34,14 @@ parser.add_argument('-a', '--arch', metavar='ARCH', default='resnet18',
                     help='model architecture: ' +
                         ' | '.join(model_names) +
                         ' (default: resnet18)')
+parser.add_argument('-ma', '--myarch', default=2, type=int,
+                    metavar='MARCH',
+                    help='choiced my arch'
+                         '0: original resnet18'
+                         '1: resnet18 with dropout'
+                         '2: resnet18 with smaller initial conv'
+                         '3: arch 2 with additional fullconnection layer'
+                         '4: arch 3 with dropout')
 parser.add_argument('-j', '--workers', default=4, type=int, metavar='N',
                     help='number of data loading workers (default: 4)')
 parser.add_argument('--epochs', default=90, type=int, metavar='N',

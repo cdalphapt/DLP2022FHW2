@@ -12,7 +12,7 @@
     <ProjectTypeGuids>{888888a0-9f3d-457c-b088-3a5042f75d52}</ProjectTypeGuids>
     <LaunchProvider>Standard Python launcher</LaunchProvider>
     <InterpreterId />
-    <CommandLineArguments>D:\DLP2022Fall\HW2\tiny_imagenet_200_reorg -b 512 --lr 0.1 --resume D:\DLP2022Fall\HW2\checkpoint.pth.tar -p 15 --epochs 50</CommandLineArguments>
+    <CommandLineArguments>D:\DLP2022Fall\HW2\tiny_imagenet_200_reorg -b 512 --lr 0.1 -p 15 --epochs 50 --myarch 2</CommandLineArguments>
     <EnableNativeCodeDebugging>False</EnableNativeCodeDebugging>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)' == 'Debug'" />
